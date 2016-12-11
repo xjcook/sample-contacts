@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainFragment extends ListFragment {
 
-    public static final String LOG_TAG = "MainFragment";
+    private static final String LOG_TAG = "MainFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
