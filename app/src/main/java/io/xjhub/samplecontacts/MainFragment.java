@@ -1,23 +1,22 @@
 package io.xjhub.samplecontacts;
 
 import android.app.ListFragment;
-import android.os.AsyncTask;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-public class MainFragment extends ListFragment {
+public class MainFragment extends ListFragment
+        implements LoaderManager.LoaderCallbacks<List<Api.Contact>> {
 
     private static final String LOG_TAG = "MainFragment";
+
+    private ContactAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,41 +28,24 @@ public class MainFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        new GetContactListTask().execute();
+        mAdapter = new ContactAdapter(getActivity(), new ArrayList<Api.Contact>());
+        setListAdapter(mAdapter);
+
+        getLoaderManager().initLoader(0, null, this).forceLoad();
     }
 
-    private class GetContactListTask extends AsyncTask<Void, Void, List<Api.Contact>> {
-
-        @Override
-        protected List<Api.Contact> doInBackground(Void... voids) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Api.API_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            Api.ContactService service = retrofit.create(Api.ContactService.class);
-            Call<Api.ContactWrapper> call = service.listContacts();
-
-            try {
-                Api.ContactWrapper contactWrapper = call.execute().body();
-                if (contactWrapper != null) {
-                    return contactWrapper.items;
-                }
-            } catch (IOException e) {
-                Log.e(LOG_TAG, Log.getStackTraceString(e));
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<Api.Contact> contacts) {
-            if (contacts != null) {
-                ContactListAdapter adapter = new ContactListAdapter(getActivity(), contacts);
-                setListAdapter(adapter);
-            }
-        }
-
+    @Override
+    public Loader<List<Api.Contact>> onCreateLoader(int i, Bundle bundle) {
+        return new ContactLoader(getActivity());
     }
 
+    @Override
+    public void onLoadFinished(Loader<List<Api.Contact>> loader, List<Api.Contact> contacts) {
+        mAdapter.setData(contacts);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Api.Contact>> loader) {
+        mAdapter.setData(new ArrayList<Api.Contact>());
+    }
 }

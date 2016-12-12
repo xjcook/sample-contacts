@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-class ContactListAdapter extends ArrayAdapter<Api.Contact> {
+class ContactAdapter extends ArrayAdapter<Api.Contact> {
 
     // View lookup cache
     private static class ViewHolder {
@@ -18,7 +18,7 @@ class ContactListAdapter extends ArrayAdapter<Api.Contact> {
         TextView phone;
     }
 
-    ContactListAdapter(Context context, List<Api.Contact> contactList) {
+    ContactAdapter(Context context, List<Api.Contact> contactList) {
         super(context, R.layout.fragment_main_row, contactList);
     }
 
@@ -48,6 +48,13 @@ class ContactListAdapter extends ArrayAdapter<Api.Contact> {
         viewHolder.phone.setText(contact.phone);
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    public void setData(List<Api.Contact> data) {
+        clear();
+        if (data != null) {
+            addAll(data);
+        }
     }
 
 }
