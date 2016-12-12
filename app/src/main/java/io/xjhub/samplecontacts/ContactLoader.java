@@ -13,10 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 class ContactLoader extends AsyncTaskLoader<List<Api.Contact>> {
 
-    private static final String LOG_TAG = "ContactLoader";
+    private static final String TAG = "ContactLoader";
 
     ContactLoader(Context context) {
         super(context);
+        onContentChanged();
     }
 
     @Override
@@ -30,15 +31,27 @@ class ContactLoader extends AsyncTaskLoader<List<Api.Contact>> {
         Call<Api.ContactWrapper> call = service.listContacts();
 
         try {
+            Log.i(TAG, "Contacts downloading...");
             Api.ContactWrapper contactWrapper = call.execute().body();
             if (contactWrapper != null) {
                 return contactWrapper.items;
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, Log.getStackTraceString(e));
+            Log.e(TAG, Log.getStackTraceString(e));
         }
 
         return null;
     }
 
+    @Override
+    protected void onStartLoading() {
+        if (takeContentChanged()) {
+            forceLoad();
+        }
+    }
+
+    @Override
+    protected void onStopLoading() {
+        cancelLoad();
+    }
 }
