@@ -17,7 +17,7 @@ public class ContactProvider extends ContentProvider {
     static final int CONTACTS = 1;
     static final int CONTACT_ID = 2;
     static final String PROVIDER_NAME = "io.xjhub.samplecontacts.ContactProvider";
-    static final String URL = "content://" + PROVIDER_NAME + "/" + Mdl.Contact.TABLE_NAME;
+    static final String URL = "content://" + PROVIDER_NAME + "/" + ContactModel.TABLE_NAME;
     static final Uri CONTENT_URI = Uri.parse(URL);
     static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -26,10 +26,10 @@ public class ContactProvider extends ContentProvider {
 
     static {
         // multiple rows
-        sUriMatcher.addURI(PROVIDER_NAME, Mdl.Contact.TABLE_NAME, 1);
+        sUriMatcher.addURI(PROVIDER_NAME, ContactModel.TABLE_NAME, 1);
 
         // single row
-        sUriMatcher.addURI(PROVIDER_NAME, Mdl.Contact.TABLE_NAME + "/#", 2);
+        sUriMatcher.addURI(PROVIDER_NAME, ContactModel.TABLE_NAME + "/#", 2);
     }
 
     @Override
@@ -43,10 +43,10 @@ public class ContactProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (sUriMatcher.match(uri)) {
             case CONTACTS:
-                return "vnd.android.cursor.dir/vnd." + PROVIDER_NAME + "." + Mdl.Contact.TABLE_NAME;
+                return "vnd.android.cursor.dir/vnd." + PROVIDER_NAME + "." + ContactModel.TABLE_NAME;
 
             case CONTACT_ID:
-                return "vnd.android.cursor.item/vnd." + PROVIDER_NAME + "." + Mdl.Contact.TABLE_NAME;
+                return "vnd.android.cursor.item/vnd." + PROVIDER_NAME + "." + ContactModel.TABLE_NAME;
 
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -65,12 +65,12 @@ public class ContactProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case CONTACTS:
                 if (TextUtils.isEmpty(sortOrder)) {
-                    sortOrder = Mdl.Contact._ID + " ASC";
+                    sortOrder = ContactModel._ID + " ASC";
                 }
                 break;
 
             case CONTACT_ID:
-                selection = selection + Mdl.Contact._ID + " = " + uri.getLastPathSegment();
+                selection = selection + ContactModel._ID + " = " + uri.getLastPathSegment();
                 break;
 
             default:
@@ -80,7 +80,7 @@ public class ContactProvider extends ContentProvider {
         // Make query
         db = mDbHelper.getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(Mdl.Contact.TABLE_NAME);
+        qb.setTables(ContactModel.TABLE_NAME);
 
         Cursor cursor = qb.query(db,
                 projection,
@@ -98,7 +98,7 @@ public class ContactProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         db = mDbHelper.getWritableDatabase();
-        long rowId = db.insert(Mdl.Contact.TABLE_NAME, null, contentValues);
+        long rowId = db.insert(ContactModel.TABLE_NAME, null, contentValues);
 
         if (rowId > 0) {
             Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowId);
@@ -123,14 +123,14 @@ public class ContactProvider extends ContentProvider {
                 break;
 
             case CONTACT_ID:
-                selection = selection + Mdl.Contact._ID + " = " + uri.getLastPathSegment();
+                selection = selection + ContactModel._ID + " = " + uri.getLastPathSegment();
                 break;
 
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
 
-        int count = db.update(Mdl.Contact.TABLE_NAME, contentValues, selection, selectionArgs);
+        int count = db.update(ContactModel.TABLE_NAME, contentValues, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
 
         return count;
@@ -145,14 +145,14 @@ public class ContactProvider extends ContentProvider {
                 break;
 
             case CONTACT_ID:
-                selection = selection + Mdl.Contact._ID + " = " + uri.getLastPathSegment();
+                selection = selection + ContactModel._ID + " = " + uri.getLastPathSegment();
                 break;
 
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
 
-        int count = db.delete(Mdl.Contact.TABLE_NAME, selection, selectionArgs);
+        int count = db.delete(ContactModel.TABLE_NAME, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
 
         return count;

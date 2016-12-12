@@ -13,15 +13,15 @@ public class ContactDbHelper extends SQLiteOpenHelper {
     private static final String BLOB_TYPE = " BLOB";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + Mdl.Contact.TABLE_NAME + " (" +
-                    Mdl.Contact._ID + " INTEGER PRIMARY KEY," +
-                    Mdl.Contact.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
-                    Mdl.Contact.COLUMN_NAME_PHONE + TEXT_TYPE + COMMA_SEP +
-                    Mdl.Contact.COLUMN_NAME_KIND + TEXT_TYPE + COMMA_SEP +
-                    Mdl.Contact.COLUMN_NAME_PICTURE + BLOB_TYPE + " )";
+            "CREATE TABLE " + ContactModel.TABLE_NAME + " (" +
+                    ContactModel._ID + " INTEGER PRIMARY KEY," +
+                    ContactModel.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+                    ContactModel.COLUMN_NAME_PHONE + TEXT_TYPE + COMMA_SEP +
+                    ContactModel.COLUMN_NAME_KIND + TEXT_TYPE + COMMA_SEP +
+                    ContactModel.COLUMN_NAME_PICTURE + BLOB_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + Mdl.Contact.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + ContactModel.TABLE_NAME;
 
     public ContactDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
