@@ -1,4 +1,4 @@
-package io.xjhub.samplecontacts.db;
+package io.xjhub.samplecontacts;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

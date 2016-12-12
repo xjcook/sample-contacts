@@ -17,6 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name=".ContactProvider"
+            android:authorities="io.xjhub.samplecontacts.ContactProvider" />
     </application>
 
 </manifest>
