@@ -2,50 +2,43 @@ package io.xjhub.samplecontacts;
 
 import android.app.ListFragment;
 import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainFragment extends ListFragment
-        implements LoaderManager.LoaderCallbacks<List<Api.Contact>> {
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String LOG_TAG = "MainFragment";
-
-    private ContactAdapter mAdapter;
+    private ContactCursorAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        getLoaderManager().initLoader(1, null, this);
+
+        return rootView;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return new CursorLoader(getActivity(), ContactProvider.CONTENT_URI, null, null, null, null);
+    }
 
-        mAdapter = new ContactAdapter(getActivity(), new ArrayList<Api.Contact>());
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        cursor.moveToFirst();
+        mAdapter = new ContactCursorAdapter(getActivity(), cursor, 0);
         setListAdapter(mAdapter);
-
-        getLoaderManager().initLoader(0, null, this).forceLoad();
     }
 
     @Override
-    public Loader<List<Api.Contact>> onCreateLoader(int i, Bundle bundle) {
-        return new ContactLoader(getActivity());
-    }
+    public void onLoaderReset(Loader<Cursor> loader) {
 
-    @Override
-    public void onLoadFinished(Loader<List<Api.Contact>> loader, List<Api.Contact> contacts) {
-        mAdapter.setData(contacts);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Api.Contact>> loader) {
-        mAdapter.setData(new ArrayList<Api.Contact>());
     }
 }

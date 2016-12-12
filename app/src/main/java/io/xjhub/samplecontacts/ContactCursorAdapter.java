@@ -1,16 +1,16 @@
 package io.xjhub.samplecontacts;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import java.util.List;
+class ContactCursorAdapter extends CursorAdapter {
 
-class ContactAdapter extends ArrayAdapter<Api.Contact> {
+    private LayoutInflater mInflater;
 
     // View lookup cache
     private static class ViewHolder {
@@ -18,22 +18,28 @@ class ContactAdapter extends ArrayAdapter<Api.Contact> {
         TextView phone;
     }
 
-    ContactAdapter(Context context, List<Api.Contact> contactList) {
-        super(context, R.layout.fragment_main_row, contactList);
+    ContactCursorAdapter(Context context, Cursor cursor, int flags) {
+        super(context, cursor, flags);
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        // Inflate the layout for each row
+        return mInflater.inflate(R.layout.fragment_main_row, parent, false);
+    }
+
+    @Override
+    public void bindView(View convertView, Context context, Cursor cursor) {
         // Get the data item for this position
-        Api.Contact contact = getItem(position);
+        String title = cursor.getString(cursor.getColumnIndex(ContactModel.COLUMN_NAME_TITLE));
+        String phone = cursor.getString(cursor.getColumnIndex(ContactModel.COLUMN_NAME_PHONE));
+
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
         if (convertView == null) {
             // If there's no view to re-use, inflate a brand new view for row
             viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.fragment_main_row, parent, false);
             viewHolder.name = (TextView) convertView.findViewById(R.id.tvName);
             viewHolder.phone = (TextView) convertView.findViewById(R.id.tvPhone);
             // Cache the viewHolder object inside the fresh view
@@ -42,19 +48,11 @@ class ContactAdapter extends ArrayAdapter<Api.Contact> {
             // View is being recycled, retrieve the viewHolder object from tag
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         // Populate the data from the data object via the viewHolder object
         // into the template view.
-        viewHolder.name.setText(contact.name);
-        viewHolder.phone.setText(contact.phone);
-        // Return the completed view to render on screen
-        return convertView;
-    }
-
-    public void setData(List<Api.Contact> data) {
-        clear();
-        if (data != null) {
-            addAll(data);
-        }
+        viewHolder.name.setText(title);
+        viewHolder.phone.setText(phone);
     }
 
 }
