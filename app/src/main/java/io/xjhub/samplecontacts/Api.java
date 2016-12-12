@@ -6,7 +6,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
-class Api {
+final class Api {
+    // Prevents accidentally instantiating this class
+    private Api() {}
 
     static final String API_URL = "https://inloop-contacts.appspot.com/_ah/api/contactendpoint/v1/";
 
@@ -22,12 +24,14 @@ class Api {
         final BigInteger id;
         final String name;
         final String phone;
+        final String pictureUrl;
         final String kind;
 
-        public Contact(BigInteger id, String name, String phone, String kind) {
+        public Contact(BigInteger id, String name, String phone, String pictureUrl, String kind) {
             this.id = id;
             this.name = name;
             this.phone = phone;
+            this.pictureUrl = pictureUrl;
             this.kind = kind;
         }
     }
