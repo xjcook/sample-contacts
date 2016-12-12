@@ -12,13 +12,14 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import static io.xjhub.samplecontacts.ContactModel.AUTHORITY;
+import static io.xjhub.samplecontacts.ContactModel.CONTENT_URI;
+
 public class ContactProvider extends ContentProvider {
 
     static final int CONTACTS = 1;
     static final int CONTACT_ID = 2;
-    static final String PROVIDER_NAME = "io.xjhub.samplecontacts.ContactProvider";
-    static final String URL = "content://" + PROVIDER_NAME + "/" + ContactModel.TABLE_NAME;
-    static final Uri CONTENT_URI = Uri.parse(URL);
+
     static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     private ContactDbHelper mDbHelper;
@@ -26,10 +27,10 @@ public class ContactProvider extends ContentProvider {
 
     static {
         // multiple rows
-        sUriMatcher.addURI(PROVIDER_NAME, ContactModel.TABLE_NAME, 1);
+        sUriMatcher.addURI(AUTHORITY, ContactModel.TABLE_NAME, 1);
 
         // single row
-        sUriMatcher.addURI(PROVIDER_NAME, ContactModel.TABLE_NAME + "/#", 2);
+        sUriMatcher.addURI(AUTHORITY, ContactModel.TABLE_NAME + "/#", 2);
     }
 
     @Override
@@ -43,10 +44,10 @@ public class ContactProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (sUriMatcher.match(uri)) {
             case CONTACTS:
-                return "vnd.android.cursor.dir/vnd." + PROVIDER_NAME + "." + ContactModel.TABLE_NAME;
+                return "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + ContactModel.TABLE_NAME;
 
             case CONTACT_ID:
-                return "vnd.android.cursor.item/vnd." + PROVIDER_NAME + "." + ContactModel.TABLE_NAME;
+                return "vnd.android.cursor.item/vnd." + AUTHORITY + "." + ContactModel.TABLE_NAME;
 
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
