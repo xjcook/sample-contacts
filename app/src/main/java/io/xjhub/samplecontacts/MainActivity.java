@@ -21,6 +21,23 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(myToolbar);
 
         getLoaderManager().initLoader(0, null, this);
+
+        // Check that the activity is using the layout version with
+        // the fragment_main FrameLayout
+        if (findViewById(R.id.fragment_main) != null) {
+            // Return if restored from a previous state
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Pass Intent extras into fragment
+            MainFragment mainFragment = new MainFragment();
+            mainFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_main' FrameLayout
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment_main, mainFragment).commit();
+        }
     }
 
     @Override
@@ -56,5 +73,5 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<Void> loader) {}
-    
+
 }
