@@ -21,6 +21,8 @@
 
         <activity android:name=".DetailActivity" />
 
+        <activity android:name=".NewContactActivity" />
+
         <provider
             android:name=".DbProvider"
             android:authorities="io.xjhub.samplecontacts.DbProvider"
