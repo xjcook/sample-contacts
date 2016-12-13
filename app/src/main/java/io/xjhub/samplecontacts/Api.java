@@ -1,10 +1,10 @@
 package io.xjhub.samplecontacts;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 final class Api {
     // Prevents accidentally instantiating this class
@@ -21,13 +21,13 @@ final class Api {
     }
 
     static class Contact {
-        final BigInteger id;
+        final Long id;
         final String name;
         final String phone;
         final String pictureUrl;
         final String kind;
 
-        public Contact(BigInteger id, String name, String phone, String pictureUrl, String kind) {
+        public Contact(Long id, String name, String phone, String pictureUrl, String kind) {
             this.id = id;
             this.name = name;
             this.phone = phone;
@@ -36,8 +36,31 @@ final class Api {
         }
     }
 
+    static class OrderWrapper {
+        final List<Order> items;
+
+        public OrderWrapper(List<Order> items) {
+            this.items = items;
+        }
+    }
+
+    static class Order {
+        final String name;
+        final int count;
+        final String kind;
+
+        public Order(String name, int count, String kind) {
+            this.name = name;
+            this.count = count;
+            this.kind = kind;
+        }
+    }
+
     interface ContactService {
         @GET("contact")
         Call<ContactWrapper> listContacts();
+
+        @GET("order/{id}")
+        Call<OrderWrapper> listOrders(@Path("id") long contactId);
     }
 }
