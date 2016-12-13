@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">Sample Contacts</string>
+    <string name="app_name">Contacts</string>
     <string name="new_contact">New contact</string>
+    <string name="hint_name">First and Last Name</string>
+    <string name="hint_phone">Phone</string>
+    <string name="button_add">Add Contact</string>
+    <string name="error_min_length">Minimum length is 5 characters</string>
 </resources>
