@@ -19,7 +19,7 @@ final class Api {
     static class ContactWrapper {
         final List<Contact> items;
 
-        public ContactWrapper(List<Contact> items) {
+        ContactWrapper(List<Contact> items) {
             this.items = items;
         }
     }
@@ -31,7 +31,7 @@ final class Api {
         final String pictureUrl;
         final String kind;
 
-        public Contact(Long id, String name, String phone, String pictureUrl, String kind) {
+        Contact(Long id, String name, String phone, String pictureUrl, String kind) {
             this.id = id;
             this.name = name;
             this.phone = phone;
@@ -39,7 +39,7 @@ final class Api {
             this.kind = kind;
         }
 
-        public Contact(String name, String phone) {
+        Contact(String name, String phone) {
             this.id = null;
             this.name = name;
             this.phone = phone;
@@ -51,7 +51,7 @@ final class Api {
     static class OrderWrapper {
         final List<Order> items;
 
-        public OrderWrapper(List<Order> items) {
+        OrderWrapper(List<Order> items) {
             this.items = items;
         }
     }
@@ -61,7 +61,7 @@ final class Api {
         final int count;
         final String kind;
 
-        public Order(String name, int count, String kind) {
+        Order(String name, int count, String kind) {
             this.name = name;
             this.count = count;
             this.kind = kind;

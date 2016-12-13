@@ -15,8 +15,6 @@ import android.widget.ListView;
 public class MainFragment extends ListFragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private ContactCursorAdapter mAdapter;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -43,19 +41,25 @@ public class MainFragment extends ListFragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         cursor.moveToFirst();
-        mAdapter = new ContactCursorAdapter(getActivity(), cursor, 0);
-        setListAdapter(mAdapter);
+        setListAdapter(new ContactCursorAdapter(getActivity(), cursor, 0));
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
+    public void onLoaderReset(Loader<Cursor> loader) {}
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        Cursor cursor = ((ContactCursorAdapter) getListAdapter()).getCursor();
+        cursor.moveToPosition(position);
+
+        String title = cursor.getString(cursor.getColumnIndex(DbModel.Contact.COLUMN_NAME_TITLE));
+        String phone = cursor.getString(cursor.getColumnIndex(DbModel.Contact.COLUMN_NAME_PHONE));
+
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra(DetailActivity.EXTRA_ID, id);
+        intent.putExtra(DetailActivity.EXTRA_TITLE, title);
+        intent.putExtra(DetailActivity.EXTRA_PHONE, phone);
+
         startActivity(intent);
     }
 }

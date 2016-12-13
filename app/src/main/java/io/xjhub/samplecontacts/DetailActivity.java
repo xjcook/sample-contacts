@@ -4,15 +4,19 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Void> {
 
     public static final String EXTRA_ID = "id";
+    public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_PHONE = "phone";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +28,21 @@ public class DetailActivity extends AppCompatActivity
         setSupportActionBar(myToolbar);
 
         // Enable the Up button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        // Custom title
+        String title = getIntent().getStringExtra(EXTRA_TITLE);
+        if (title != null) {
+            actionBar.setTitle(title);
+        }
+
+        // Phone header
+        String phone = getIntent().getStringExtra(EXTRA_PHONE);
+        if (phone != null) {
+            TextView tvPhone = (TextView) findViewById(R.id.tvPhone);
+            tvPhone.setText(phone);
+        }
 
         // Initialize OrderLoader
         getLoaderManager().initLoader(2, null, this);

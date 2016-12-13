@@ -61,7 +61,6 @@ public class DetailFragment extends ListFragment
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {}
 
-    }
 }
