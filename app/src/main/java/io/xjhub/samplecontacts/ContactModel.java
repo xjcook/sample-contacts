@@ -13,5 +13,6 @@ final class ContactModel implements BaseColumns {
     static final String COLUMN_NAME_PHONE = "phone";
     static final String COLUMN_NAME_KIND = "kind";
     static final String COLUMN_NAME_PICTURE = "picture";
+    static final String COLUMN_NAME_PICTURE_URL = "pictureUrl";
 
 }

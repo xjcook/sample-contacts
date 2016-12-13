@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ContactDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "contacts.db";
 
     private static final String TEXT_TYPE = " TEXT";
@@ -18,6 +18,7 @@ public class ContactDbHelper extends SQLiteOpenHelper {
                     ContactModel.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
                     ContactModel.COLUMN_NAME_PHONE + TEXT_TYPE + COMMA_SEP +
                     ContactModel.COLUMN_NAME_KIND + TEXT_TYPE + COMMA_SEP +
+                    ContactModel.COLUMN_NAME_PICTURE_URL + TEXT_TYPE + COMMA_SEP +
                     ContactModel.COLUMN_NAME_PICTURE + BLOB_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =

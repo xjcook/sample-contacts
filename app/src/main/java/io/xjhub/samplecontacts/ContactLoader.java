@@ -54,9 +54,11 @@ class ContactLoader extends AsyncTaskLoader<Void> {
             for (Api.Contact contact : contactWrapper.items) {
                 if (!TextUtils.isEmpty(contact.name)) {
                     ops.add(ContentProviderOperation.newInsert(ContactModel.CONTENT_URI)
+                            .withValue(ContactModel._ID, String.valueOf(contact.id))
                             .withValue(ContactModel.COLUMN_NAME_TITLE, contact.name)
                             .withValue(ContactModel.COLUMN_NAME_PHONE, contact.phone)
                             .withValue(ContactModel.COLUMN_NAME_KIND, contact.kind)
+                            .withValue(ContactModel.COLUMN_NAME_PICTURE_URL, contact.pictureUrl)
                             .build());
                 }
             }
