@@ -1,9 +1,12 @@
 package io.xjhub.samplecontacts;
 
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Void> {
 
     public static final String EXTRA_ID = "id";
 
@@ -11,6 +14,8 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        getLoaderManager().initLoader(2, null, this);
 
         // Check that the activity is using the layout version with
         // the fragment_detail FrameLayout
@@ -28,5 +33,21 @@ public class DetailActivity extends AppCompatActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.fragment_detail, detailFragment).commit();
         }
+    }
+
+    @Override
+    public Loader<Void> onCreateLoader(int i, Bundle bundle) {
+        long contactId = getIntent().getLongExtra(EXTRA_ID, 0);
+        return new OrderLoader(this, contactId);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Void> loader, Void aVoid) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Void> loader) {
+
     }
 }

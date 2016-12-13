@@ -38,7 +38,7 @@ public class DetailFragment extends ListFragment
         if (args != null) {
             long id = getArguments().getLong(DetailActivity.EXTRA_ID);
             if (id != 0) {
-                selection = DbModel.Order._ID + "=?";
+                selection = DbModel.Order.COLUMN_NAME_CONTACT_ID + "=?";
                 selectionArgs = new String[]{String.valueOf(id)};
             }
         }

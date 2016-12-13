@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     private static final String DATABASE_NAME = "simplecontacts.db";
 
     private static final String INTEGER_TYPE = " INTEGER";
@@ -26,6 +26,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_ORDER_CREATE_ENTRIES =
             "CREATE TABLE " + DbModel.Order.TABLE_NAME + " (" +
                     DbModel.Order._ID + " INTEGER PRIMARY KEY," +
+                    DbModel.Order.COLUMN_NAME_CONTACT_ID + INTEGER_TYPE + COMMA_SEP +
                     DbModel.Order.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
                     DbModel.Order.COLUMN_NAME_COUNT + INTEGER_TYPE + COMMA_SEP +
                     DbModel.Order.COLUMN_NAME_KIND + TEXT_TYPE + " )";

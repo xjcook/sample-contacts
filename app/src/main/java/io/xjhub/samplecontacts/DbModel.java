@@ -22,6 +22,7 @@ final class DbModel {
     static class Order implements BaseColumns {
         static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + Order.TABLE_NAME);
         static final String TABLE_NAME = "orders";
+        static final String COLUMN_NAME_CONTACT_ID = "contactId";
         static final String COLUMN_NAME_TITLE = "title";
         static final String COLUMN_NAME_COUNT = "count";
         static final String COLUMN_NAME_KIND = "kind";

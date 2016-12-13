@@ -15,12 +15,15 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-class ContactLoader extends AsyncTaskLoader<Void> {
+class OrderLoader extends AsyncTaskLoader<Void> {
 
-    private static final String TAG = "ContactLoader";
+    private static final String TAG = "OrderLoader";
 
-    ContactLoader(Context context) {
+    private long mContactId;
+
+    OrderLoader(Context context, long contactId) {
         super(context);
+        mContactId = contactId;
         onContentChanged();
     }
 
@@ -32,33 +35,35 @@ class ContactLoader extends AsyncTaskLoader<Void> {
                 .build();
 
         Api.ContactService service = retrofit.create(Api.ContactService.class);
-        Call<Api.ContactWrapper> call = service.listContacts();
+        Call<Api.OrderWrapper> call = service.listOrders(mContactId);
 
-        Api.ContactWrapper contactWrapper = null;
+        Api.OrderWrapper orderWrapper = null;
         try {
-            Log.i(TAG, "Contacts downloading...");
-            contactWrapper = call.execute().body();
+            Log.i(TAG, "Orders for contact: " + mContactId + " downloading...");
+            orderWrapper = call.execute().body();
         } catch (IOException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
 
-        if (contactWrapper != null && contactWrapper.items.size() > 0) {
-            Log.i(TAG, "Contacts reloading...");
+        if (orderWrapper != null && orderWrapper.items.size() > 0) {
+            Log.i(TAG, "Orders for contact: " + mContactId + " reloading...");
             ArrayList<ContentProviderOperation> ops = new ArrayList<>();
 
-            // Delete all contacts
-            ops.add(ContentProviderOperation.newDelete(DbModel.Contact.CONTENT_URI)
+            // Delete all orders for contact
+            ops.add(ContentProviderOperation.newDelete(DbModel.Order.CONTENT_URI)
+                    .withSelection(
+                            DbModel.Order.COLUMN_NAME_CONTACT_ID + "=?",
+                            new String[]{String.valueOf(mContactId)})
                     .build());
 
-            // Insert downloaded contacts
-            for (Api.Contact contact : contactWrapper.items) {
-                if (!TextUtils.isEmpty(contact.name)) {
-                    ops.add(ContentProviderOperation.newInsert(DbModel.Contact.CONTENT_URI)
-                            .withValue(DbModel.Contact._ID, String.valueOf(contact.id))
-                            .withValue(DbModel.Contact.COLUMN_NAME_TITLE, contact.name)
-                            .withValue(DbModel.Contact.COLUMN_NAME_PHONE, contact.phone)
-                            .withValue(DbModel.Contact.COLUMN_NAME_KIND, contact.kind)
-                            .withValue(DbModel.Contact.COLUMN_NAME_PICTURE_URL, contact.pictureUrl)
+            // Insert downloaded orders
+            for (Api.Order order : orderWrapper.items) {
+                if (!TextUtils.isEmpty(order.name)) {
+                    ops.add(ContentProviderOperation.newInsert(DbModel.Order.CONTENT_URI)
+                            .withValue(DbModel.Order.COLUMN_NAME_CONTACT_ID, mContactId)
+                            .withValue(DbModel.Order.COLUMN_NAME_TITLE, order.name)
+                            .withValue(DbModel.Order.COLUMN_NAME_COUNT, order.name)
+                            .withValue(DbModel.Order.COLUMN_NAME_KIND, order.kind)
                             .build());
                 }
             }
