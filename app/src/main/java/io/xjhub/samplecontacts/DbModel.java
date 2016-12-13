@@ -11,7 +11,7 @@ final class DbModel {
 
     static class Contact implements BaseColumns {
         static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + Contact.TABLE_NAME);
-        static final String TABLE_NAME = "contact";
+        static final String TABLE_NAME = "contacts";
         static final String COLUMN_NAME_TITLE = "title";
         static final String COLUMN_NAME_PHONE = "phone";
         static final String COLUMN_NAME_KIND = "kind";
@@ -21,7 +21,7 @@ final class DbModel {
 
     static class Order implements BaseColumns {
         static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + Order.TABLE_NAME);
-        static final String TABLE_NAME = "order";
+        static final String TABLE_NAME = "orders";
         static final String COLUMN_NAME_TITLE = "title";
         static final String COLUMN_NAME_COUNT = "count";
         static final String COLUMN_NAME_KIND = "kind";
