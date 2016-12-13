@@ -13,9 +13,8 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import static io.xjhub.samplecontacts.DbModel.AUTHORITY;
-import static io.xjhub.samplecontacts.DbModel.CONTENT_URI;
 
-public class ContactProvider extends ContentProvider {
+public class DbProvider extends ContentProvider {
 
     static final int CONTACTS = 1;
     static final int CONTACT_ID = 2;
@@ -102,7 +101,7 @@ public class ContactProvider extends ContentProvider {
         long rowId = db.insert(DbModel.Contact.TABLE_NAME, null, contentValues);
 
         if (rowId > 0) {
-            Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowId);
+            Uri _uri = ContentUris.withAppendedId(uri, rowId);
             getContext().getContentResolver().notifyChange(_uri, null);
             return _uri;
         }

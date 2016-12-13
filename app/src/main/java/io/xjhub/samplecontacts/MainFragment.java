@@ -36,7 +36,7 @@ public class MainFragment extends ListFragment
         };
 
         return new CursorLoader(getActivity(),
-                DbModel.CONTENT_URI, projection, null, null, null);
+                DbModel.Contact.CONTENT_URI, projection, null, null, null);
     }
 
     @Override

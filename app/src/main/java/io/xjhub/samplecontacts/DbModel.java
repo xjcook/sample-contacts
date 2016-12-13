@@ -7,10 +7,10 @@ final class DbModel {
     // Prevents accidentally instantiating this class
     private DbModel() {}
 
-    static final String AUTHORITY = "io.xjhub.samplecontacts.ContactProvider";
-    static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + Contact.TABLE_NAME);
+    static final String AUTHORITY = "io.xjhub.samplecontacts.DbProvider";
 
     static class Contact implements BaseColumns {
+        static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + Contact.TABLE_NAME);
         static final String TABLE_NAME = "contact";
         static final String COLUMN_NAME_TITLE = "title";
         static final String COLUMN_NAME_PHONE = "phone";
@@ -20,6 +20,7 @@ final class DbModel {
     }
 
     static class Order implements BaseColumns {
+        static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + Order.TABLE_NAME);
         static final String TABLE_NAME = "order";
         static final String COLUMN_NAME_TITLE = "title";
         static final String COLUMN_NAME_COUNT = "count";

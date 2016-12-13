@@ -47,13 +47,13 @@ class ContactLoader extends AsyncTaskLoader<Void> {
             ArrayList<ContentProviderOperation> ops = new ArrayList<>();
 
             // Delete all contacts
-            ops.add(ContentProviderOperation.newDelete(DbModel.CONTENT_URI)
+            ops.add(ContentProviderOperation.newDelete(DbModel.Contact.CONTENT_URI)
                     .build());
 
             // Insert downloaded contacts
             for (Api.Contact contact : contactWrapper.items) {
                 if (!TextUtils.isEmpty(contact.name)) {
-                    ops.add(ContentProviderOperation.newInsert(DbModel.CONTENT_URI)
+                    ops.add(ContentProviderOperation.newInsert(DbModel.Contact.CONTENT_URI)
                             .withValue(DbModel.Contact._ID, String.valueOf(contact.id))
                             .withValue(DbModel.Contact.COLUMN_NAME_TITLE, contact.name)
                             .withValue(DbModel.Contact.COLUMN_NAME_PHONE, contact.phone)
