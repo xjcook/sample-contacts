@@ -3,12 +3,14 @@ package io.xjhub.samplecontacts;
 import android.app.ListFragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 public class MainFragment extends ListFragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -47,5 +49,12 @@ public class MainFragment extends ListFragment
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.EXTRA_ID, id);
+        startActivity(intent);
     }
 }

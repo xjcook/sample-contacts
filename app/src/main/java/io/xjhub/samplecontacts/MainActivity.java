@@ -8,8 +8,6 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Void> {
 
-    private static final String TAG = "MainActivity";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
