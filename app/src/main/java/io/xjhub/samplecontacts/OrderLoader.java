@@ -30,7 +30,7 @@ class OrderLoader extends AsyncTaskLoader<Void> {
     @Override
     public Void loadInBackground() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.API_URL)
+                .baseUrl(Api.URL + Api.ORDER_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
