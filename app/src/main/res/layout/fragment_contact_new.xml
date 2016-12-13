@@ -11,6 +11,7 @@
     <EditText android:id="@+id/nameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textCapWords"
         android:hint="@string/hint_name"/>
 
     <EditText android:id="@+id/phoneEditText"

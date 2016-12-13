@@ -5,4 +5,5 @@
     <string name="hint_phone">Phone</string>
     <string name="button_add">Add Contact</string>
     <string name="error_min_length">Minimum length is 5 characters</string>
+    <string name="error_upload_contact">Oops something goes wrong</string>
 </resources>
