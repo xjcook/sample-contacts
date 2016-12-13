@@ -22,6 +22,7 @@ public class MainFragment extends ListFragment
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        // Initialize CursorLoader
         getLoaderManager().initLoader(1, null, this);
 
         return rootView;
