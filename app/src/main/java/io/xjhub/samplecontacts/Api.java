@@ -3,7 +3,9 @@ package io.xjhub.samplecontacts;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 final class Api {
@@ -36,6 +38,14 @@ final class Api {
             this.pictureUrl = pictureUrl;
             this.kind = kind;
         }
+
+        public Contact(String name, String phone) {
+            this.id = null;
+            this.name = name;
+            this.phone = phone;
+            this.pictureUrl = null;
+            this.kind = null;
+        }
     }
 
     static class OrderWrapper {
@@ -61,6 +71,9 @@ final class Api {
     interface ContactService {
         @GET("contact")
         Call<ContactWrapper> listContacts();
+
+        @POST("contact")
+        Call<Contact> createContact(@Body Contact contact);
 
         @GET("order/{id}")
         Call<OrderWrapper> listOrders(@Path("id") long contactId);
