@@ -23,7 +23,8 @@
 
         <provider
             android:name=".DbProvider"
-            android:authorities="io.xjhub.samplecontacts.DbProvider" />
+            android:authorities="io.xjhub.samplecontacts.DbProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

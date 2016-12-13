@@ -130,11 +130,13 @@ public class DbProvider extends ContentProvider {
         Uri contentUri;
 
         switch (sUriMatcher.match(uri)) {
+            case CONTACTS:
             case CONTACT_ID:
                 table = DbModel.Contact.TABLE_NAME;
                 contentUri = DbModel.Contact.CONTENT_URI;
                 break;
 
+            case ORDERS:
             case ORDER_ID:
                 table = DbModel.Order.TABLE_NAME;
                 contentUri = DbModel.Order.CONTENT_URI;
