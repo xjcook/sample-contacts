@@ -2,6 +2,7 @@ package io.xjhub.samplecontacts;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 public class NewContactActivity extends AppCompatActivity {
 
@@ -9,6 +10,9 @@ public class NewContactActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_new);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         // Check that the activity is using the layout version with
         // the fragment_detail FrameLayout
