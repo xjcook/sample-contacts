@@ -1,8 +1,10 @@
 package io.xjhub.samplecontacts;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,8 +99,13 @@ public class NewContactFragment extends Fragment {
         @Override
         protected void onPostExecute(Api.Contact contact) {
             if (contact != null) {
+                // Force sync contacts
+                LocalBroadcastManager.getInstance(getActivity())
+                        .sendBroadcast(new Intent("sync-contacts"));
+                // Finish activity
                 getActivity().finish();
             } else {
+                // Show error message
                 Toast.makeText(getActivity(),
                         R.string.error_upload_contact, Toast.LENGTH_LONG).show();
             }

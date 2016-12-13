@@ -1,26 +1,40 @@
 package io.xjhub.samplecontacts;
 
 import android.app.LoaderManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.Loader;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Void> {
 
+    private static final String TAG = "MainActivity";
+    private static final int CONTACT_LOADER = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Setup ActionBar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        getLoaderManager().initLoader(0, null, this);
+        // Initialize ContactLoader
+        getLoaderManager().initLoader(CONTACT_LOADER, null, this);
+
+        // Register an observer
+        LocalBroadcastManager.getInstance(this).registerReceiver(mSyncReceiver,
+                new IntentFilter("sync-contacts"));
 
         // Check that the activity is using the layout version with
         // the fragment_main FrameLayout
@@ -74,4 +88,19 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoaderReset(Loader<Void> loader) {}
 
+    private BroadcastReceiver mSyncReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Restart ContactLoader
+            Log.i(TAG, "Force sync contacts");
+            getLoaderManager().restartLoader(CONTACT_LOADER, null, MainActivity.this);
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        // Unregister an observer
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mSyncReceiver);
+        super.onDestroy();
+    }
 }
