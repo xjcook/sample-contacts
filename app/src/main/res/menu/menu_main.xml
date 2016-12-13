@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_newcontact"
-        android:title="@string/new_contact"
+        android:title="@string/contact_new"
         android:icon="@android:drawable/ic_menu_add"
         app:showAsAction="ifRoom" />
 

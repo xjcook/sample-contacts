@@ -29,7 +29,8 @@ public class DetailFragment extends ListFragment
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = new String[]{
                 DbModel.Order._ID,
-                DbModel.Order.COLUMN_NAME_TITLE
+                DbModel.Order.COLUMN_NAME_TITLE,
+                DbModel.Order.COLUMN_NAME_COUNT
         };
 
         String selection = null;
@@ -52,10 +53,12 @@ public class DetailFragment extends ListFragment
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         cursor.moveToFirst();
         setListAdapter(new SimpleCursorAdapter(getActivity(),
-                android.R.layout.simple_list_item_1,
+                R.layout.fragment_detail_row,
                 cursor,
-                new String[]{DbModel.Order.COLUMN_NAME_TITLE},
-                new int[]{android.R.id.text1},
+                new String[]{
+                        DbModel.Order.COLUMN_NAME_TITLE,
+                        DbModel.Order.COLUMN_NAME_COUNT},
+                new int[]{R.id.tvName, R.id.tvCount},
                 0
         ));
     }

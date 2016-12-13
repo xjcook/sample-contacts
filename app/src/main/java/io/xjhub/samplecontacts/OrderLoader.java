@@ -62,7 +62,7 @@ class OrderLoader extends AsyncTaskLoader<Void> {
                     ops.add(ContentProviderOperation.newInsert(DbModel.Order.CONTENT_URI)
                             .withValue(DbModel.Order.COLUMN_NAME_CONTACT_ID, mContactId)
                             .withValue(DbModel.Order.COLUMN_NAME_TITLE, order.name)
-                            .withValue(DbModel.Order.COLUMN_NAME_COUNT, order.name)
+                            .withValue(DbModel.Order.COLUMN_NAME_COUNT, order.count)
                             .withValue(DbModel.Order.COLUMN_NAME_KIND, order.kind)
                             .build());
                 }

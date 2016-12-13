@@ -1,11 +1,19 @@
 <resources>
     <string name="app_name">Contacts</string>
-    <string name="new_contact">New contact</string>
-    <string name="label_phone">Phone</string>
-    <string name="test_phone">+421 922 123 456</string>
+    <string name="contact_new">New contact</string>
+    <string name="button_add">Add Contact</string>
+
     <string name="hint_name">First and Last Name</string>
     <string name="hint_phone">Phone</string>
-    <string name="button_add">Add Contact</string>
+
+    <string name="label_phone">Phone</string>
+    <string name="test_phone">+421 922 123 456</string>
+
+    <string name="test_name">HDD</string>
+    <string name="test_count">13</string>
+    <string name="label_count">x</string>
+
+    <!-- Error messages -->
     <string name="error_min_length">Minimum length is 5 characters</string>
     <string name="error_upload_contact">Oops something goes wrong</string>
 </resources>
