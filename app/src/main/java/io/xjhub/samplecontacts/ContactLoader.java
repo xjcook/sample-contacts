@@ -47,24 +47,24 @@ class ContactLoader extends AsyncTaskLoader<Void> {
             ArrayList<ContentProviderOperation> ops = new ArrayList<>();
 
             // Delete all contacts
-            ops.add(ContentProviderOperation.newDelete(ContactModel.CONTENT_URI)
+            ops.add(ContentProviderOperation.newDelete(DbModel.CONTENT_URI)
                     .build());
 
             // Insert downloaded contacts
             for (Api.Contact contact : contactWrapper.items) {
                 if (!TextUtils.isEmpty(contact.name)) {
-                    ops.add(ContentProviderOperation.newInsert(ContactModel.CONTENT_URI)
-                            .withValue(ContactModel._ID, String.valueOf(contact.id))
-                            .withValue(ContactModel.COLUMN_NAME_TITLE, contact.name)
-                            .withValue(ContactModel.COLUMN_NAME_PHONE, contact.phone)
-                            .withValue(ContactModel.COLUMN_NAME_KIND, contact.kind)
-                            .withValue(ContactModel.COLUMN_NAME_PICTURE_URL, contact.pictureUrl)
+                    ops.add(ContentProviderOperation.newInsert(DbModel.CONTENT_URI)
+                            .withValue(DbModel.Contact._ID, String.valueOf(contact.id))
+                            .withValue(DbModel.Contact.COLUMN_NAME_TITLE, contact.name)
+                            .withValue(DbModel.Contact.COLUMN_NAME_PHONE, contact.phone)
+                            .withValue(DbModel.Contact.COLUMN_NAME_KIND, contact.kind)
+                            .withValue(DbModel.Contact.COLUMN_NAME_PICTURE_URL, contact.pictureUrl)
                             .build());
                 }
             }
 
             try {
-                getContext().getContentResolver().applyBatch(ContactModel.AUTHORITY, ops);
+                getContext().getContentResolver().applyBatch(DbModel.AUTHORITY, ops);
             } catch (RemoteException | OperationApplicationException e) {
                 Log.e(TAG, Log.getStackTraceString(e));
             }

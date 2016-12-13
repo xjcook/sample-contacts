@@ -28,8 +28,8 @@ class ContactCursorAdapter extends CursorAdapter {
         TextView tvName = (TextView) view.findViewById(R.id.tvName);
         TextView tvPhone = (TextView) view.findViewById(R.id.tvPhone);
 
-        String title = cursor.getString(cursor.getColumnIndex(ContactModel.COLUMN_NAME_TITLE));
-        String phone = cursor.getString(cursor.getColumnIndex(ContactModel.COLUMN_NAME_PHONE));
+        String title = cursor.getString(cursor.getColumnIndex(DbModel.Contact.COLUMN_NAME_TITLE));
+        String phone = cursor.getString(cursor.getColumnIndex(DbModel.Contact.COLUMN_NAME_PHONE));
 
         tvName.setText(title);
         tvPhone.setText(phone);
