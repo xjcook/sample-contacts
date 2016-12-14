@@ -78,7 +78,7 @@ public class NewContactFragment extends Fragment {
         @Override
         protected Api.Contact doInBackground(Void... voids) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Api.URL + Api.CONTACT_ENDPOINT)
+                    .baseUrl(Api.API_URL + Api.CONTACT_ENDPOINT)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

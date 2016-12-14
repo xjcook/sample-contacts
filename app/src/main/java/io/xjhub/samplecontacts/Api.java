@@ -12,7 +12,8 @@ final class Api {
     // Prevents accidentally instantiating this class
     private Api() {}
 
-    static final String URL = "https://inloop-contacts.appspot.com/_ah/api";
+    static final String API_URL = "https://inloop-contacts.appspot.com/_ah/api";
+    static final String IMAGE_URL = "http://inloop-contacts.appsppot.com";
     static final String CONTACT_ENDPOINT = "/contactendpoint/v1/";
     static final String ORDER_ENDPOINT = "/orderendpoint/v1/";
 

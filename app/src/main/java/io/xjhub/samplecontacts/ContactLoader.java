@@ -2,15 +2,23 @@ package io.xjhub.samplecontacts;
 
 import android.content.AsyncTaskLoader;
 import android.content.ContentProviderOperation;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.common.io.ByteStreams;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -27,7 +35,7 @@ class ContactLoader extends AsyncTaskLoader<Void> {
     @Override
     public Void loadInBackground() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.URL + Api.CONTACT_ENDPOINT)
+                .baseUrl(Api.API_URL + Api.CONTACT_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -67,6 +75,57 @@ class ContactLoader extends AsyncTaskLoader<Void> {
                 getContext().getContentResolver().applyBatch(DbModel.AUTHORITY, ops);
             } catch (RemoteException | OperationApplicationException e) {
                 Log.e(TAG, Log.getStackTraceString(e));
+            }
+
+            // Download images
+            Log.i(TAG, "Contact images downloading...");
+            OkHttpClient client = new OkHttpClient();
+
+            for (final Api.Contact contact : contactWrapper.items) {
+                if (contact.pictureUrl != null) {
+                    // Convert relative Url to absolute
+                    String pictureUrl = contact.pictureUrl;
+                    if (!pictureUrl.contains("http")) {
+                        pictureUrl = Api.IMAGE_URL + "/" + contact.pictureUrl;
+                    }
+
+                    // Make request, handle incorrect Url
+                    Request request = null;
+                    try {
+                        request = new Request.Builder().url(pictureUrl).build();
+                    } catch (IllegalArgumentException e) {
+                        Log.e(TAG, Log.getStackTraceString(e));
+                    }
+
+                    if (request != null) {
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onResponse(okhttp3.Call call, Response response) throws IOException {
+                                Log.i(TAG, "Image downloaded");
+
+                                // Convert InputStream into byte[] array
+                                InputStream inputStream = response.body().byteStream();
+                                byte[] image = ByteStreams.toByteArray(inputStream);
+
+                                // Save image to database
+                                ContentValues contentValues = new ContentValues();
+                                contentValues.put(DbModel.Contact.COLUMN_NAME_PICTURE, image);
+
+                                getContext().getContentResolver().update(
+                                        DbModel.Contact.CONTENT_URI,
+                                        contentValues,
+                                        DbModel.Contact._ID + "=?",
+                                        new String[]{String.valueOf(contact.id)}
+                                );
+                            }
+
+                            @Override
+                            public void onFailure(okhttp3.Call call, IOException e) {
+                                Log.e(TAG, Log.getStackTraceString(e));
+                            }
+                        });
+                    }
+                }
             }
         }
 
