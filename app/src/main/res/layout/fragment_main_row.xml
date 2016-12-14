@@ -6,8 +6,10 @@
 
     <ImageView
         android:id="@+id/icPlaceholder"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:paddingRight="10dp"
+        android:contentDescription="@string/placeholder"
         app:srcCompat="@drawable/ic_placeholder" />
 
     <TextView
@@ -27,7 +29,7 @@
         android:layout_toRightOf="@id/icPlaceholder"
         android:layout_toEndOf="@id/icPlaceholder"
         android:layout_below="@id/tvName"
-        android:textSize="15sp"
+        android:textSize="17sp"
         android:text="@string/test_phone" />
 
 </RelativeLayout>
