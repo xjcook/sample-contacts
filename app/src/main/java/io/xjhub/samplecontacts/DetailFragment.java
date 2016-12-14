@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleCursorAdapter;
 
 public class DetailFragment extends ListFragment
         implements LoaderManager.LoaderCallbacks<Cursor> {

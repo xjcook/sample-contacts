@@ -5,16 +5,18 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import static io.xjhub.samplecontacts.DbModel.AUTHORITY;
 
 public class DbProvider extends ContentProvider {
+
+    private static final String TAG = "DbProvider";
 
     static final int CONTACTS = 1;
     static final int CONTACT_ID = 2;
@@ -154,7 +156,8 @@ public class DbProvider extends ContentProvider {
             return _uri;
         }
 
-        throw new SQLException("Failed to add a record into " + uri);
+        Log.e(TAG, "Failed to add a record into " + uri);
+        return null;
     }
 
     @Override
