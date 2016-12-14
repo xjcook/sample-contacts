@@ -52,15 +52,7 @@ public class DetailFragment extends ListFragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         cursor.moveToFirst();
-        setListAdapter(new SimpleCursorAdapter(getActivity(),
-                R.layout.fragment_detail_row,
-                cursor,
-                new String[]{
-                        DbModel.Order.COLUMN_NAME_TITLE,
-                        DbModel.Order.COLUMN_NAME_COUNT},
-                new int[]{R.id.tvName, R.id.tvCount},
-                0
-        ));
+        setListAdapter(new OrderCursorAdapter(getActivity(), cursor, 0));
     }
 
     @Override
