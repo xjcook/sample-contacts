@@ -28,14 +28,8 @@ public class MainFragment extends ListFragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = new String[]{
-                DbModel.Contact._ID,
-                DbModel.Contact.COLUMN_NAME_TITLE,
-                DbModel.Contact.COLUMN_NAME_PHONE
-        };
-
         return new CursorLoader(getActivity(),
-                DbModel.Contact.CONTENT_URI, projection, null, null, null);
+                DbModel.Contact.CONTENT_URI, null, null, null, null);
     }
 
     @Override
